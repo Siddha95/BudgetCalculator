@@ -1,0 +1,80 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class BudgetCalculator extends JFrame {
+    private JTextField salaryField;
+    private JTextArea resultArea;
+    private JButton calculateButton;
+
+    public BudgetCalculator() {
+        setTitle("Budget Calculator");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+        // Input Panel
+        JPanel inputPanel = new JPanel(new FlowLayout());
+        inputPanel.add(new JLabel("Enter Monthly Salary:"));
+        salaryField = new JTextField(10);
+        inputPanel.add(salaryField);
+        calculateButton = new JButton("Calculate");
+        inputPanel.add(calculateButton);
+        add(inputPanel, BorderLayout.NORTH);
+
+        // Result Area
+        resultArea = new JTextArea();
+        resultArea.setEditable(false);
+        resultArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        add(new JScrollPane(resultArea), BorderLayout.CENTER);
+
+        // Button Action Listener
+        calculateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                calculateBudget();
+            }
+        });
+    }
+
+    private void calculateBudget() {
+        try {
+            double salary = Double.parseDouble(salaryField.getText());
+
+            // Calculate taxes (35% of salary)
+            double taxes = salary * 0.35;
+            double salaryAfterTax = salary - taxes;
+
+            // Fixed expenses: Rent ($450) and Bills ($50)
+            double fixedExpenses = 450 + 50;  // Total = $500
+            double remainingAfterExpenses = salaryAfterTax - fixedExpenses;
+
+            // Calculate charity (10% of the remaining amount)
+            double charity = remainingAfterExpenses * 0.10;
+
+            // Calculate net profit after charity donation
+            double netProfit = remainingAfterExpenses - charity;
+
+            // Build output summary
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("Monthly Salary:         $%.2f%n", salary));
+            sb.append(String.format("Taxes (35%%):            $%.2f%n", taxes));
+            sb.append(String.format("Salary After Taxes:     $%.2f%n", salaryAfterTax));
+            sb.append(String.format("Rent:                   $450.00%n"));
+            sb.append(String.format("Bills:                  $50.00%n"));
+            sb.append(String.format("Remaining After Expenses: $%.2f%n", remainingAfterExpenses));
+            sb.append(String.format("Charity Donation (10%%): $%.2f%n", charity));
+            sb.append(String.format("Net Profit:             $%.2f%n", netProfit));
+
+            resultArea.setText(sb.toString());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid number for salary.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new BudgetCalculator().setVisible(true);
+        });
+    }
+}
