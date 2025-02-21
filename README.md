@@ -6,14 +6,12 @@ Compile the Code:
 Save the code to a file named BudgetCalculator.java and compile it using:
 
 bash
-Copia
-Modifica
 javac BudgetCalculator.java
 Run the Application:
 Then run the application with:
 
 bash
-Copia
-Modifica
 java BudgetCalculator
 This will open a sleek GUI where you can input your monthly salary and click Calculate to see the detailed breakdown of your expenses and net profit. Feel free to customize the UI (e.g., colors, fonts, layout) further to suit your aesthetic preferences.
+
+If you want to modify some parameter you just need to touch the code. I made it for myself and my expenses.
